@@ -61,8 +61,15 @@ module Erp::Menus
 			               .where(parent_id: nil)
 		end
 
-    def self.get_menus
-			self.get_active.where(parent_id: nil)
+    def self.get_menus(params={})
+      query = self.get_active
+      query = query.where(parent_id: nil)
+
+      if params[:is_hot].present?
+        query = query.where(is_hot: params[:is_hot])
+      end
+
+      return query
 		end
 
     # Filters
@@ -135,8 +142,12 @@ module Erp::Menus
     end
 
     # data for dataselect ajax
-    def self.dataselect(keyword='')
-      query = self.all
+    def self.dataselect(keyword='', params={})
+      query = self.get_active
+
+      if params[:current_id].present?
+        query = query.where.not(id: params[:current_id])
+      end
 
       if keyword.present?
         keyword = keyword.strip.downcase
@@ -164,8 +175,12 @@ module Erp::Menus
 
     # display name
     def parent_name
-			parent.present? ? parent.name : ''
-		end
+			parent.present? ? (parent.parent_name.empty? ? '' : "#{parent.parent_name} / ") + parent.name : ''
+    end
+    
+    def full_name
+      (parent_name.empty? ? '' : "#{parent_name} / ") + name
+    end
 
     # get self and children ids
     def get_self_and_children_ids
@@ -205,7 +220,7 @@ module Erp::Menus
 		end
 
     if Erp::Core.available?("products")
-			def get_products_for_categories(params)
+			def get_products_for_categories(params={})
 				records = Erp::Products::Product.get_active
 													.where(category_id: self.get_all_related_category_ids)
 

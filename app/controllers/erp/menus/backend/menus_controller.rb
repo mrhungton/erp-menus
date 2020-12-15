@@ -149,7 +149,7 @@ module Erp
         def dataselect
           respond_to do |format|
             format.json {
-              render json: Menu.dataselect(params[:keyword].split('/').last.strip)
+              render json: Menu.dataselect(params[:keyword].split('/').last.to_s.strip, params)
             }
           end
         end

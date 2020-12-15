@@ -4,7 +4,7 @@ Erp::Menus::Engine.routes.draw do
 			resources :menus do
 				collection do
 					post 'list'
-					get 'dataselect'
+					post 'dataselect'
 					delete 'delete_all'
 					put 'archive'
 					put 'unarchive'

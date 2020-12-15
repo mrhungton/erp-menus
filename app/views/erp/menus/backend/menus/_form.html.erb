@@ -90,7 +90,8 @@
                             text: menu.parent_name,
                             placeholder: t('.choose_parent_menu'),
                             label: t('.parent_menu'),
-                            url: erp_menus.dataselect_backend_menus_path(format: 'json'),
+                            url: erp_menus.dataselect_backend_menus_path(format: 'json', 
+                                current_id: menu.id),
                             create: {
                                 url: erp_menus.new_backend_menu_path,
                                 title: t('.create_menu'),
@@ -273,7 +274,8 @@
                                     placeholder: t('.choose_related_menu'),
                                     label: t('.related_menu'),
                                     help: t('.help_menu'),
-                                    url: erp_menus.dataselect_backend_menus_path(format: 'json'),
+                                    url: erp_menus.dataselect_backend_menus_path(format: 'json',
+                                        current_id: menu.id),
                                     create: {
                                         url: erp_menus.new_backend_menu_path,
                                         title: t('.create_menu'),
