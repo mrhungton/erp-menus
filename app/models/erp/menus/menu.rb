@@ -149,6 +149,14 @@ module Erp::Menus
         query = query.where.not(id: params[:current_id])
       end
 
+      if params[:parent_id].present?
+        query = query.where(parent_id: params[:parent_id])
+      end
+
+      if params[:is_top_parent].present?
+        query = query.where(parent_id: nil)
+      end
+
       if keyword.present?
         keyword = keyword.strip.downcase
         query = query.where('LOWER(name) LIKE ?', "%#{keyword}%")
