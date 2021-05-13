@@ -31,12 +31,14 @@ vi:
             success: "Hiện menu được chọn thành công."
           index:
             menus: "Danh sách menu"
-            name: "Tên"
+            top_parent: "Menu gốc (Cấp 1)"
+            name: "Tên menu"
             parent_menu: "Menu cha"
             create: "Thêm menu"
             delete: "Xóa menu"
           list:
-            name: "Tên"
+            name: "Tên menu"
+            parent_menu: "Menu cha"
             seo_success: "Đã SEO với"
             no_matching_records_found: "Danh sách menu hiện tại đang trống."
           new:

@@ -9,9 +9,9 @@
                     <%= t('.name') %>
                 </th>
             <% end %>
-            <% if get_columns(params).include?("parent_name") %>
+            <% if get_columns(params).include?("parent_menu") %>
                 <th>
-                    <%= t('.parent_name') %>
+                    <%= t('.parent_menu') %>
                 </th>
             <% end %>
             <% if get_columns(params).include?("status") %>
@@ -43,12 +43,12 @@
                 </td>
                 <% if get_columns(params).include?("name") %>
                     <td>
-                        <%= link_to menu.name, erp_menus.edit_backend_menu_path(menu), class: 'title' %>                        
+                        <%= link_to menu.full_name, erp_menus.edit_backend_menu_path(menu), class: 'title' %>                        
                     </td>
                 <% end %>
-                <% if get_columns(params).include?("parent_name") %>
+                <% if get_columns(params).include?("parent_menu") %>
                     <td>
-                        <%= menu.parent.name if menu.parent.present? %>
+                        <%= menu.parent.present? ? menu.parent.name : '--' %>
                     </td>
                 <% end %>
                 <% if get_columns(params).include?("status") %>
@@ -79,7 +79,7 @@
                 <% end %>
                 <td class="text-center text-semibold">
                     <%= menu.custom_order %>
-                    <% if params[:sort_by] == 'erp_menus_menus.custom_order' %>
+                    <% if params[:sort_by] == 'erp_menus_menus.custom_order' and params[:global_filter][:parent_id].present? %>
                         <a data-method="PUT"
                             href="<%=
                                 params[:sort_direction] == 'asc' ?

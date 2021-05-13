@@ -112,6 +112,15 @@ module Erp::Menus
         end
       end
 
+      # global filter - start
+      global_filter = params[:global_filter]
+      if global_filter.present?
+				if global_filter[:parent_id].present?
+					query = query.where(parent_id: global_filter[:parent_id])
+				end
+			end
+      # global filter - end
+
       # join with users table for search creator
       query = query.joins(:creator)
 
@@ -162,7 +171,7 @@ module Erp::Menus
         query = query.where('LOWER(name) LIKE ?', "%#{keyword}%")
       end
 
-      query = query.limit(8).map{|menu| {value: menu.id, text: (menu.parent_name.empty? ? '' : "#{menu.parent_name} / ") + menu.name} }
+      query = query.limit(8).map{|menu| {value: menu.id, text: menu.full_name} }
     end
 
     def archive
@@ -183,11 +192,11 @@ module Erp::Menus
 
     # display name
     def parent_name
-			parent.present? ? (parent.parent_name.empty? ? '' : "#{parent.parent_name} / ") + parent.name : ''
+			parent.present? ? (parent.parent_name.empty? ? '' : "#{parent.parent_name} → ") + parent.name : ''
     end
     
     def full_name
-      (parent_name.empty? ? '' : "#{parent_name} / ") + name
+      (parent_name.empty? ? '' : "#{parent_name} → ") + name
     end
 
     # get self and children ids
